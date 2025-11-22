@@ -44,7 +44,7 @@ class InvoiceTableWidget extends BaseWidget
             ])->actions([
                 // Define the custom action
                 Action::make('view')
-                    ->visible(Auth::user()->view_dws)
+                    ->visible(Auth::user()->view_dws && !str_contains($type, 'CNF'))
                     ->label('DWS')
                     ->icon('heroicon-o-eye')  // Icon (optional)
                     ->color('primary')  // Red color (optional)
@@ -53,7 +53,7 @@ class InvoiceTableWidget extends BaseWidget
                     ->openUrlInNewTab(),
 
                 Action::make('view')
-                    ->visible(Auth::user()->view_dms && !str_contains($type, 'CNF'))
+                    ->visible(Auth::user()->view_dms)
                     ->label('AWB Scan')
                 //    ->visible( str_contains(Session::get('cur_invno'),'CNF-') )
                     ->icon('heroicon-o-eye')  // Icon (optional)

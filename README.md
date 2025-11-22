@@ -1,6 +1,6 @@
 # eBilling - Invoice Management System
 
-A modern invoice management and tracking system built with Laravel and Filament, designed for efficient billing operations and shipment tracking.
+A modern multitenant invoice management and tracking system built with Laravel and Filament, designed for efficient billing operations and shipment tracking.
 
 ![Laravel](https://img.shields.io/badge/Laravel-11.x-red.svg)
 ![Filament](https://img.shields.io/badge/Filament-3.x-orange.svg)
@@ -8,25 +8,26 @@ A modern invoice management and tracking system built with Laravel and Filament,
 
 ## Features
 
-- 📋 **Invoice Management** - Comprehensive invoice listing and management
-- 📦 **Shipment Tracking** - Real-time tracking of shipments with detailed information
-- 🔍 **Advanced Filtering** - Filter invoices by movement type, billing type, and date ranges
-- 📊 **Dynamic Widgets** - Interactive widgets for invoice details and shipment information
-- 🔐 **User Authentication** - Secure authentication with role-based access control
-- 📱 **Responsive Design** - Mobile-friendly interface built with TailwindCSS
-- ⚡ **Real-time Updates** - Livewire-powered reactive components
-- 📄 **Document Management** - View and download invoices, Musak documents, and AWB scans
-- 🌐 **Multi-Movement Support** - Handle both Export and Import operations
-- 🏢 **Multiple Billing Types** - Support for EPP, IFC, CNF, and EFD billing
+- **Invoice Management** - Comprehensive invoice listing and management
+- **Shipment Tracking** - Real-time tracking of shipments with detailed information
+- **Advanced Filtering** - Filter invoices by movement type, billing type, and date ranges
+- **Dynamic Widgets** - Interactive widgets for invoice details and shipment information
+- **User Authentication** - Secure authentication with role-based access control
+- **Responsive Design** - Mobile-friendly interface built with TailwindCSS
+- **Real-time Updates** - Livewire-powered reactive components
+- **Document Management** - View and download invoices, Musak documents, and AWB scans
+- **Multi-Movement Support** - Handle both Export and Import operations
+- **Multitenant Support** - Handle multiple tenants with separate columns
+- **Multiple Billing Types** - Support for EPP, IFC, CNF, and EFD billing
 
 ## Recent Updates
 
 ### Session Refactoring (Latest)
-- ✅ Removed all session-based state management
-- ✅ Implemented Livewire reactive properties for better performance
-- ✅ Added static property pattern for Sushi model data passing
-- ✅ Improved widget reactivity with `#[Reactive]` attributes
-- ✅ Enhanced code maintainability and follows Laravel/Livewire best practices
+- Removed all session-based state management
+- Implemented Livewire reactive properties for better performance
+- Added static property pattern for Sushi model data passing
+- Improved widget reactivity with `#[Reactive]` attributes
+- Enhanced code maintainability and follows Laravel/Livewire best practices
 
 ## Requirements
 
