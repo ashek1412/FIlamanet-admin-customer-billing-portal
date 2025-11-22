@@ -1,0 +1,134 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+@config 'tailwind.config.js';
+/*.fi-topbar > nav {*/
+/*  @apply !bg-inherit ring-0 shadow-none;*/
+/*}*/
+
+
+
+nav.flex{
+  height: 3rem  !important;
+  @apply dark:bg-gray-800;
+}
+
+
+
+.fi-main{
+  @apply px-2  min-h-[calc(100vh-100px)] !important;
+
+}
+
+.fi-body
+{
+  @apply dark:bg-gray-700;
+}
+
+.fi-active{
+  @apply p-2;
+}
+
+.fi-sidebar-nav
+{
+  @apply px-3;
+}
+.fi-in-text
+{
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+
+.fi-header-heading{
+  @apply text-lg pl-2 sm:text-lg  font-medium !important;
+}
+
+.fi-sidebar-item
+{
+  @apply shadow-lg;
+}
+
+.fi-sidebar-item.fi-active
+{
+  @apply p-0;
+}
+
+.fi-ta-text{
+  @apply py-1;
+}
+.fi-sidebar-nav-groups{
+  @apply gap-y-1;
+}
+
+.fi-fieldset{
+  @apply dark:border-white !important;
+}
+
+.dark label {
+  @apply text-gray-100 !important;
+}
+
+.custom-div {
+  @apply text-sm text-black p-1 rounded-md bg-blue-50 dark:text-white dark:bg-gray-700;
+}
+
+.fi-sidebar-header{
+  height: 3rem  !important;
+}
+
+.fi-sidebar-item-active > a {
+  @apply bg-orange-800 dark:bg-indigo-800;
+    & > svg, span {
+    @apply text-white dark:text-white;
+   }
+   &:hover {
+   @apply bg-indigo-400;
+ }
+}
+
+
+
+.fi-sidebar {
+  @apply bg-slate-100 dark:bg-gray-800;
+   & > svg, span {
+    @apply text-black dark:text-white;
+  }
+}
+
+.fi-ta-header-heading  {
+  justify-content: center !important;
+  font-size: 1rem;
+}
+
+.fi-ta-header  {
+  justify-content: center !important;
+
+}
+
+.fi-sidebar {
+  position: relative;
+}
+
+.fi-sidebar::after {
+  content: "";
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 100px;
+  background-image: url('/image/ups_asc.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 1;
+}
+
+.fi-sidebar:hover::after {
+  opacity: 1;
+}
+
+
+
+
+
+
+

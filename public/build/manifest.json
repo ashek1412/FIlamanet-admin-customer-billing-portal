@@ -1,0 +1,28 @@
+{
+  "resources/css/admin.css": {
+    "file": "assets/admin-CpmofWmF.css",
+    "src": "resources/css/admin.css",
+    "isEntry": true
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-CPpQm8cl.css",
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/filament/admin/theme.css": {
+    "file": "assets/theme-Cjcu6ZM1.css",
+    "src": "resources/css/filament/admin/theme.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CWW5oPDg.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "vendor/andreia/filament-nord-theme/resources/css/theme.css": {
+    "file": "assets/theme-DbHWf2xq.css",
+    "src": "vendor/andreia/filament-nord-theme/resources/css/theme.css",
+    "isEntry": true
+  }
+}
