@@ -120,8 +120,8 @@ class NotificationResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()->color('primary'),
-                Tables\Actions\EditAction::make()->visible(Auth::user()->is_admin)
-                ,
+                Tables\Actions\EditAction::make()->visible(Auth::user()->is_admin),
+                Tables\Actions\DeleteAction::make()->visible(Auth::user()->is_admin),
                // Tables\Actions\ViewAction::make(),
                 Action::make('sendNotification')->visible(function ($record) {
                    return (Auth::user()->is_admin && $record->status=="pending");

@@ -3,7 +3,10 @@ namespace App\Filament\Pages;
 
 
 
+use Filament\Actions\Action;
+use Filament\Actions\ActionGroup;
 use Filament\Pages\Dashboard\Concerns\HasFiltersAction;
+use Filament\Support\Enums\ActionSize;
 
 
 class Dashboard extends \Filament\Pages\Dashboard
@@ -21,10 +24,13 @@ class Dashboard extends \Filament\Pages\Dashboard
 
 
 
+ 
+
     public function getWidgets(): array
     {
         return [
-
+            \App\Filament\Widgets\StatsOverview::class,
+            \App\Filament\Widgets\UserActivityChart::class,
         ];
     }
 }
