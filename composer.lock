@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35aa37f2a4daa035ec3b3375f449461b",
+    "content-hash": "278c41e6a03f3142506e0711cfe237bd",
     "packages": [
         {
             "name": "andreia/filament-nord-theme",
@@ -1889,79 +1889,6 @@
             "time": "2024-04-29T13:26:35+00:00"
         },
         {
-            "name": "dotswan/filament-laravel-pulse",
-            "version": "v1.1.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dotswan/filament-laravel-pulse.git",
-                "reference": "578c316390783e11de5457f3d8765c8690ef3154"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dotswan/filament-laravel-pulse/zipball/578c316390783e11de5457f3d8765c8690ef3154",
-                "reference": "578c316390783e11de5457f3d8765c8690ef3154",
-                "shasum": ""
-            },
-            "require": {
-                "filament/filament": "^3.0",
-                "illuminate/contracts": "^10.0 || ^11.0",
-                "laravel/pulse": "^1.2.3",
-                "php": "^8.2",
-                "spatie/laravel-package-tools": "^1.15.0"
-            },
-            "require-dev": {
-                "laravel/pint": "^1.0",
-                "nunomaduro/collision": "^7.9",
-                "nunomaduro/larastan": "^2.0.1",
-                "orchestra/testbench": "^8.0",
-                "pestphp/pest": "^2.0",
-                "pestphp/pest-plugin-arch": "^2.0",
-                "pestphp/pest-plugin-laravel": "^2.0",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan-deprecation-rules": "^1.0",
-                "phpstan/phpstan-phpunit": "^1.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "aliases": {
-                        "FilamentLaravelPulse": "Dotswan\\FilamentLaravelPulse\\Facades\\FilamentLaravelPulse"
-                    },
-                    "providers": [
-                        "Dotswan\\FilamentLaravelPulse\\FilamentLaravelPulseServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Dotswan\\FilamentLaravelPulse\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dotswan",
-                    "email": "tech@dotswan.com",
-                    "role": "Developer"
-                }
-            ],
-            "homepage": "https://github.com/dotswan/filament-laravel-pulse",
-            "keywords": [
-                "dotswan",
-                "filament-laravel-pulse",
-                "laravel",
-                "laravel-pulse"
-            ],
-            "support": {
-                "issues": "https://github.com/dotswan/filament-laravel-pulse/issues",
-                "source": "https://github.com/dotswan/filament-laravel-pulse"
-            },
-            "time": "2025-01-03T09:44:51+00:00"
-        },
-        {
             "name": "dragonmantank/cron-expression",
             "version": "v3.4.0",
             "source": {
@@ -3670,16 +3597,16 @@
         },
         {
             "name": "laravel/pulse",
-            "version": "v1.4.0",
+            "version": "v1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pulse.git",
-                "reference": "62099ede70df2272544f0c0657eda0c73d25a6b2"
+                "reference": "73c349777e09893a68d747bb6ae87e54eb5e5aec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pulse/zipball/62099ede70df2272544f0c0657eda0c73d25a6b2",
-                "reference": "62099ede70df2272544f0c0657eda0c73d25a6b2",
+                "url": "https://api.github.com/repos/laravel/pulse/zipball/73c349777e09893a68d747bb6ae87e54eb5e5aec",
+                "reference": "73c349777e09893a68d747bb6ae87e54eb5e5aec",
                 "shasum": ""
             },
             "require": {
@@ -3712,7 +3639,7 @@
                 "orchestra/testbench": "^8.23.1|^9.0|^10.0",
                 "pestphp/pest": "^2.0",
                 "pestphp/pest-plugin-laravel": "^2.2",
-                "phpstan/phpstan": "^1.11",
+                "phpstan/phpstan": "^1.12.21",
                 "predis/predis": "^1.0|^2.0"
             },
             "type": "library",
@@ -3753,7 +3680,7 @@
                 "issues": "https://github.com/laravel/pulse/issues",
                 "source": "https://github.com/laravel/pulse"
             },
-            "time": "2025-02-11T13:36:44+00:00"
+            "time": "2025-05-19T13:12:28+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -11090,12 +11017,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.2"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

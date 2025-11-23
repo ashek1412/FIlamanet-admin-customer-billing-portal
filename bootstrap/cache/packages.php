@@ -120,17 +120,6 @@
       0 => 'DiogoGPinto\\AuthUIEnhancer\\AuthUIEnhancerServiceProvider',
     ),
   ),
-  'dotswan/filament-laravel-pulse' => 
-  array (
-    'aliases' => 
-    array (
-      'FilamentLaravelPulse' => 'Dotswan\\FilamentLaravelPulse\\Facades\\FilamentLaravelPulse',
-    ),
-    'providers' => 
-    array (
-      0 => 'Dotswan\\FilamentLaravelPulse\\FilamentLaravelPulseServiceProvider',
-    ),
-  ),
   'filament/actions' => 
   array (
     'providers' => 
