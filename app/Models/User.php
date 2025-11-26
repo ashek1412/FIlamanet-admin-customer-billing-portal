@@ -16,7 +16,7 @@ use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable ,AuthenticationLoggable;
+    use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable, AuthenticationLoggable;
 
     /**
      * The attributes that are mass assignable.
@@ -75,20 +75,33 @@ class User extends Authenticatable implements FilamentUser
     }
 
     /**
+     * Send the password reset notification with Filament panel URL.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token): void
+    {
+        $url = \Filament\Facades\Filament::getPanel('app')
+            ->getPasswordResetUrl($token, $this);
+
+        $this->notify(new \Illuminate\Auth\Notifications\ResetPassword($url));
+    }
+
+    /**
      * The posts that belong to the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function customer()
     {
-        return $this->belongsTo(CustomerList::class,'customer_id','id');
+        return $this->belongsTo(CustomerList::class, 'customer_id', 'id');
     }
 
     public function needsPasswordReset(): bool
     {
         // Check if first login
-        if($this->is_admin)
-        {
+        if ($this->is_admin) {
             return false;
         }
 
@@ -156,5 +169,4 @@ class User extends Authenticatable implements FilamentUser
     {
         $this->update(['failed_login_attempts' => 0]);
     }
-
 }

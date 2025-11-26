@@ -15,7 +15,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\View\View;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse as LoginResponseContract;
 use Filament\Http\Responses\Auth\Contracts\LogoutResponse as LogoutResponseContract;
-
+use Illuminate\Validation\Rules\Password;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -27,9 +27,9 @@ class AppServiceProvider extends ServiceProvider
     {
         FilamentView::registerRenderHook(
             PanelsRenderHook::SIDEBAR_FOOTER,
-            fn (): string => view('<x-sidebar-logo />'),
+            fn(): string => view('<x-sidebar-logo />'),
             'panels::head.start',
-            fn (): string => '<meta name="robots" content="noindex,nofollow">',
+            fn(): string => '<meta name="robots" content="noindex,nofollow">',
 
         );
 
@@ -42,6 +42,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-
+        // Set default password validation rules
+        Password::defaults(function () {
+            return Password::min(8)
+                ->mixedCase()      // Requires at least one uppercase and one lowercase letter
+                ->numbers()        // Requires at least one number
+                ->symbols()        // Requires at least one special character
+                ->uncompromised(); // Ensures password hasn't been compromised in data breaches
+        });
     }
 }

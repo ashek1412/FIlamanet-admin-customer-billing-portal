@@ -41,11 +41,12 @@ class AppPanelProvider extends PanelProvider
             ->id('app')
             ->path('app')
             ->colors([
-                'primary' =>Color::rgb('rgb(165, 42, 42)'),
+                'primary' => Color::rgb('rgb(165, 42, 42)'),
             ])
-            ->brandLogo(fn () => view('components.logo'))
+            ->brandLogo(fn() => view('components.logo'))
             ->authGuard('web')
             ->login(Login::class)
+            ->passwordReset()
             ->brandName('e-Bill Portal')
             ->breadcrumbs(false)
             ->profile()
@@ -64,7 +65,7 @@ class AppPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
             ->widgets([
-            //    Widgets\AccountWidget::class
+                //    Widgets\AccountWidget::class
 
             ])
             ->viteTheme('resources/css/filament/admin/theme.css')
@@ -83,7 +84,7 @@ class AppPanelProvider extends PanelProvider
                     ->emptyPanelBackgroundImageUrl(URL::to('/image/login.png')),
                 EasyFooterPlugin::make()
                     ->withFooterPosition('footer')
-                    ->withSentence('Copyright © '.date('Y').' Air Alliance Limited.
+                    ->withSentence('Copyright © ' . date('Y') . ' Air Alliance Limited.
                     All rights reserved. Air Alliance Limited is the authorized service contractor of
                     UPS and a concern of Bengal Airlift Limited')
                     ->footerEnabled(), // true by default
@@ -92,15 +93,15 @@ class AppPanelProvider extends PanelProvider
                 FilamentPeekPlugin::make()
                     ->disablePluginStyles(),
 
-//                FilamentExceptionsPlugin::make(),
+                //                FilamentExceptionsPlugin::make(),
 
                 GravatarPlugin::make(),
-               // FilamentNordThemePlugin::make()
+                // FilamentNordThemePlugin::make()
 
-            ]) ->renderHook(
+            ])->renderHook(
 
                 'panels::body.end',
-                fn (): string => Blade::render('
+                fn(): string => Blade::render('
                 <script>
                     document.addEventListener("livewire:init", () => {
                         Livewire.hook("request", ({ fail }) => {
