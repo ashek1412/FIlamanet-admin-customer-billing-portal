@@ -1,10 +1,11 @@
 <x-filament-panels::page>
-  <div class="space-y-4">
-  {{$this->form}}
-  </div>
-  <div class="w-48">
-    <x-filament::button wire:click="updateForm" size="sm">
-      Save
-    </x-filament::button>
-    <div class="space-y-4">
+  <form wire:submit="save">
+    {{ $this->form }}
+
+    <div class="mt-6 flex justify-end">
+      <x-filament::button type="submit">
+        Save Terms & Conditions
+      </x-filament::button>
+    </div>
+  </form>
 </x-filament-panels::page>

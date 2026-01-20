@@ -23,16 +23,17 @@ class ChangeRequestResource extends Resource
     protected static ?string $model = ChangeRequest::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-plus';
-    protected static ?int $navigationSort=6;
+    protected static ?int $navigationSort = 6;
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-               TextInput::make('subject')
+                TextInput::make('subject')
                     ->required()
                     ->maxLength(255),
-               Forms\Components\RichEditor::make('description')
+                Forms\Components\RichEditor::make('description')
                     ->required(),
                 TextInput::make('remarks')->visible(auth()->user()->is_admin),
                 Select::make('status')
@@ -61,7 +62,7 @@ class ChangeRequestResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make()->visible(auth()->user()->is_admin),
                 ViewAction::make()->color('primary')
-            ]) ;
+            ]);
     }
 
     public static function getRelations(): array

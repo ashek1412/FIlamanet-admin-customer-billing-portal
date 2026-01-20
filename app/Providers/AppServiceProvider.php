@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     {
         FilamentView::registerRenderHook(
             PanelsRenderHook::SIDEBAR_FOOTER,
-            fn(): string => view('<x-sidebar-logo />'),
+            fn(): string => view('x-sidebar-logo'),
             'panels::head.start',
             fn(): string => '<meta name="robots" content="noindex,nofollow">',
 

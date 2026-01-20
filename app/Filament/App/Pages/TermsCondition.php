@@ -20,6 +20,12 @@ class TermsCondition extends Page
     {
         return '';
     }
+	
+	    public static function getNavigationLabel(): string
+    {
+        return 'Terms & Conditions';
+    }
+	
     public function mount(): void
     {
         $this->model=Term::all()->toArray();

@@ -194,7 +194,7 @@ class ResetPassword extends Page
 
 
             // Redirect to dashboard
-         //   $this->redirectToDashboard();
+            //   $this->redirectToDashboard();
 
         } catch (\Exception $e) {
             Notification::make()

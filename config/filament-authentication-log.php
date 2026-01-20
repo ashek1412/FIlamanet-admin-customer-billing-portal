@@ -14,8 +14,8 @@ return [
         'authentication-log' => [
             'register' => true,
 
-             'sort' => 1,
-             'icon' => 'heroicon-o-shield-check',
+            'sort' => 1,
+            'icon' => 'heroicon-o-shield-check',
         ],
     ],
 
@@ -23,4 +23,9 @@ return [
         'column' => 'login_at',
         'direction' => 'desc',
     ],
+
+    'authenticatable' => [
+        'field-to-display' => 'username', // Change 'name' to your custom field if needed
+    ],
+
 ];

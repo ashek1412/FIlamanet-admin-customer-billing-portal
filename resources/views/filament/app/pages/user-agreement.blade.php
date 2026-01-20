@@ -5,7 +5,7 @@
   <x-filament-panels::form wire:submit="submit"  >
     <div class="w-full text-center">
       <x-filament::button type="submit" size="sm" wire:submit="save">
-        Submit
+        Agree
       </x-filament::button>
     </div>
 

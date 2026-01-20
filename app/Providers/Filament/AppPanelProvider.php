@@ -33,6 +33,7 @@ use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Pboivin\FilamentPeek\FilamentPeekPlugin;
 
 
+
 class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel

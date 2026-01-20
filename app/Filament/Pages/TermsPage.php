@@ -4,11 +4,8 @@ namespace App\Filament\Pages;
 
 use App\Models\Term;
 use Exception;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\MarkdownEditor;
+use Filament\Actions\Action;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -17,13 +14,12 @@ use Filament\Pages\Page;
 class TermsPage extends Page implements HasForms
 {
     use \Filament\Forms\Concerns\InteractsWithForms;
+
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationGroup = 'Settings';
-
     protected static string $view = 'filament.pages.terms';
 
     public ?array $data = [];
-    protected $model=[];
 
     public function getHeading(): string
     {
@@ -34,49 +30,63 @@ class TermsPage extends Page implements HasForms
     {
         return 'Terms & Conditions';
     }
+
     public function mount(): void
     {
-        $this->model=Term::all()->toArray();
+        $term = Term::first();
 
-
-        if(count($this->model)>0)
-                $this->form->fill(['description'=>$this->model[0]['description']]);
-        else
-            $this->form->fill();
+        if ($term) {
+            $this->form->fill(['description' => $term->description]);
+        } else {
+            $this->form->fill(['description' => '']);
+        }
     }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-
-                RichEditor::make('description')->label("Terms and Conditions"),
-                // ...
+                RichEditor::make('description')
+                    ->label('Terms and Conditions')
+                    ->required()
+                    ->columnSpanFull(),
             ])
             ->statePath('data');
-
     }
 
+    // ✅ Add form actions (save button)
+    protected function getFormActions(): array
+    {
+        return [
+            Action::make('save')
+                ->label('Save Terms & Conditions')
+                ->action('save')
+                ->color('primary'),
+        ];
+    }
 
-    public function updateForm(): void
+    // ✅ Rename to 'save' to match the action
+    public function save(): void
     {
         try {
-            $formvalues = $this->form->getState();
-            if (count($this->model) > 0) {
+            $formData = $this->form->getState();
 
-                Term::where('id', $this->model[0]['id'])->first()?->update($formvalues);
-            } else {
-                Term::create($formvalues);
-            }
+            // Use updateOrCreate for cleaner code
+            Term::updateOrCreate(
+                ['id' => Term::first()?->id],
+                ['description' => $formData['description']]
+            );
 
-            Notification::make()->title('Saved successfully')->success()->send();
+            Notification::make()
+                ->title('Saved successfully')
+                ->success()
+                ->send();
+        } catch (Exception $e) {
+            Notification::make()
+                ->title('Failed to save')
+                ->body($e->getMessage())
+                ->danger()
+                ->send();
         }
-        catch(Exception $e)
-        {
-            $message = $e->getMessage();
-            Notification::make()->title('Failed')->danger()->send();
-        }
-
     }
-
 }

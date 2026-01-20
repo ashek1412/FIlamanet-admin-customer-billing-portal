@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Blade;
-
+use Carbon\Carbon;
 
 
 class AccountStatement extends BaseWidget
@@ -37,12 +37,13 @@ class AccountStatement extends BaseWidget
 
     public function table(Table $table): Table
     {
+
         return $table
             ->query(
                 \App\Models\AccountStatement::query()
             )
             ->columns([
-                TextColumn::make('icris')->label('icris')->searchable(),
+                TextColumn::make('invoiceNumber')->label('Invoice Number')->searchable(),
                 TextColumn::make('invoiceType')->label('Invoice type')->searchable(),
                 TextColumn::make('invoicePeriod')->label('Invoice period'),
                 TextColumn::make('invoiceDate')->label('Invoice date'),
@@ -75,14 +76,14 @@ class AccountStatement extends BaseWidget
                                 ->orderBy('invoiceDate')
                                 ->pluck('status', 'status')
                                 ->toArray();
-                        })->multiple()->default(['Over Due', 'Pending','Due']),
+                        })->multiple()->default(['Over Due', 'Pending', 'Due']),
                     Filter::make('from_date')
                         ->label('Created Date Range')
                         ->form([
                             // Start Date Picker
                             \Filament\Forms\Components\DatePicker::make('start_date')->seconds(false)
                                 ->label('Start Date')->native(false)
-                                ->default(now()->startOfYear()),
+                                ->default(Carbon::parse('January 1st 2024')->toDateString()),
                             // End Date Picker
                             \Filament\Forms\Components\DatePicker::make('end_date')->seconds(false)
                                 ->label('End Date')->native(false)
@@ -114,7 +115,7 @@ class AccountStatement extends BaseWidget
 
                         return response()->streamDownload(function () use ($pdf) {
                             echo $pdf->stream();
-                        }, 'table_export.pdf');
+                        }, 'Statement of Account_' . now()->format('Y-m-d') . '.pdf');
                     })
                     ->color('primary')
                     ->requiresConfirmation(),
@@ -125,24 +126,39 @@ class AccountStatement extends BaseWidget
         ;
     }
 
-    function indian_number_format($num)
-    {
-        // return $num;
-        $fullnum = $num;
-        $whole = (int) $fullnum;
-        $frac  = round($fullnum - $whole, 2);
-        $frac = ltrim($frac, '0');
-        $num = (string)$num;
-
-        $lastThree = substr($whole, -3);
-        $restUnits = substr($whole, 0, -3);
-
-        if ($restUnits != '')
-            $lastThree = ',' . $lastThree;
-        // dd($fullnum."-".$restUnits." ".$frac);
-        $restUnits = preg_replace("/\B(?=(\d{2})+(?!\d))/", ",", $restUnits);
-        return $restUnits . $lastThree . $frac;
+function indian_number_format($num)
+{
+    $fullnum = $num;
+    $isNegative = $num < 0;
+    
+    // Work with absolute value for formatting
+    $num = abs($num);
+    
+    $whole = (int) $num;
+    $frac = round($num - $whole, 2);
+    
+    // Format decimal part properly
+    $fracStr = '';
+    if ($frac > 0) {
+        $fracStr = substr(number_format($frac, 2), 1); // Gets ".XX"
     }
+    
+    // Format the whole number part
+    $whole = (string)$whole;
+    $lastThree = substr($whole, -3);
+    $restUnits = substr($whole, 0, -3);
+    
+    if ($restUnits != '') {
+        $lastThree = ',' . $lastThree;
+    }
+    
+    $restUnits = preg_replace("/\B(?=(\d{2})+(?!\d))/", ",", $restUnits);
+    
+    $result = $restUnits . $lastThree . $fracStr;
+    
+    // Add negative sign back if needed
+    return $isNegative ? '-' . $result : $result;
+}
 
     public function getColumns(): int | string | array
     {

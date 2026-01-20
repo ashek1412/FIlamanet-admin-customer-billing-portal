@@ -33,7 +33,6 @@
     const contentType = "{{ $contentType }}";
     const base64Data = "{{ $fileData }}";
 
-
     document.getElementById('viewer').innerHTML =
       '<img src="data:' + contentType + ';base64,' + base64Data + '" alt="Document Image" style="max-width:80%;display:block; margin:auto;">' +
       '<br>' +

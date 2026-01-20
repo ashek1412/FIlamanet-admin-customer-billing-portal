@@ -9,32 +9,30 @@ use Sushi\Sushi;
 
 class CustomerList extends Model
 {
-    use HasFactory,Sushi;
+    use HasFactory, Sushi;
     protected $guarded = [];
-    protected $table="customer_list";
+    protected $table = "customer_list";
     public function getRows(): array
     {
-        $arr=[];
-        $inv=new AccountController();
-        $arr=$inv->getCustomerList();
+        $arr = [];
+        $inv = new AccountController();
+        $arr = $inv->getCustomerList();
 
-        $cnt=0;
-        foreach($arr as $value) {
-            $arr[$cnt]['details'] = $value['dname']." (".trim($value['icris'].")");
+
+
+
+        $cnt = 0;
+        foreach ($arr as $value) {
+            $arr[$cnt]['details'] =  $value['xcus'] . "-" . $value['dname'] . " (" . trim($value['icris'] . ")");
             $cnt++;
         }
 
+        // dd(count($arr));
         return $arr;
     }
 
-    protected function sushiShouldCache():bool
+    protected function sushiShouldCache(): bool
     {
-        return true;
+        return false;
     }
-
-
-
-
-
-
 }

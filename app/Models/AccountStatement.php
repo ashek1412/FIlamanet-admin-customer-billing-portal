@@ -29,7 +29,7 @@ class AccountStatement extends Model
             $acController = new AccountController();
             $this->cus_code = $acController->getAccount();
 
-            if(!isset( $this->cus_code['xcus']))
+            if (!isset($this->cus_code['xcus']))
                 return [];
 
             $this->cus_code = $this->cus_code['xcus'];
@@ -38,11 +38,17 @@ class AccountStatement extends Model
 
             $data = $actColor->getDynamicsData($this->cus_code);
 
+            usort($data, function ($a, $b) {
+                return $b['invoiceDate'] <=> $a['invoiceDate'];
+            });
+
+
+
 
             if (!empty($data)) {
                 return array_map(function ($item) {
                     unset($item['@odata.etag']);
-                   // dd($item);
+
                     return $item;
                 }, $data);
             }

@@ -2,6 +2,7 @@
 // app/Filament/Pages/Auth/Login.php
 
 namespace App\Filament\Auth\Pages;
+
 use DiogoGPinto\AuthUIEnhancer\Pages\Auth\Concerns\HasCustomLayout;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\TextInput;
@@ -15,8 +16,8 @@ use Illuminate\Validation\ValidationException;
 
 class Login extends BaseLogin
 {
- //   protected static string $view = 'filament.pages.custom-login';
-    use HasCustomLayout;
+    //   protected static string $view = 'filament.pages.custom-login';
+    //  use HasCustomLayout;
 
     public function mount(): void
     {
@@ -24,6 +25,11 @@ class Login extends BaseLogin
 
         // Handle flash notifications after page loads
         $this->handleFlashNotifications();
+    }
+
+    public function getLayout(): string
+    {
+        return 'vendor.diogogpinto.custom-auth-layout';
     }
 
     public function authenticate(): ?LoginResponse
@@ -129,6 +135,4 @@ class Login extends BaseLogin
             session()->forget('successpassword');
         }
     }
-
-
 }

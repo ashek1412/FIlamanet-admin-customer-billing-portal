@@ -133,8 +133,7 @@ return [
     'dms_user' => env('DMS_USER', ''),
     'dms_pass' => env('DMS_PASS', ''),
 
-
-
+    'dynamics_soa_url' => env('DYNAMICS_SOA_URL', ''),
     'dynamics_token_url' => env('DYNAMICS_TOKEN_URL', ''),
     'dynamics_client_id' => env('DYNAMICS_CLIENT_ID', ''),
     'dynamics_client_secret' => env('DYNAMICS_CLIENT_SECRET', ''),

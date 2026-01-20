@@ -6,10 +6,7 @@ use App\Services\DynamicsService;
 use Exception;
 use Filament\Notifications\Notification;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Request as GuzzleRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -69,7 +66,6 @@ class AccountController extends Controller
             ]);
 
             return null;
-
         } catch (Exception $e) {
             $this->logAndNotifyError('ERP API Error', $e);
             return null;
@@ -81,6 +77,7 @@ class AccountController extends Controller
      */
     private function fetchPdfFromErp(string $endpoint, string $id, string $filename): JsonResponse|Response
     {
+
         if (!$id || $id <= 0) {
             return $this->jsonError('Invalid ID provided', 400);
         }
@@ -89,9 +86,13 @@ class AccountController extends Controller
             $response = Http::withHeaders($this->getErpHeaders())
                 ->post("{$this->erpUrl}/{$endpoint}", ['invnum' => $id]);
 
+
+
             if (!$response->successful()) {
                 return $this->jsonError('Failed to retrieve data', 404);
             }
+
+
 
             $pdfData = base64_decode($response->json('pdf_data', ''));
 
@@ -100,7 +101,6 @@ class AccountController extends Controller
             }
 
             return $this->pdfResponse($pdfData, $filename);
-
         } catch (Exception $e) {
             Log::error('PDF fetch error', [
                 'endpoint' => $endpoint,
@@ -160,8 +160,8 @@ class AccountController extends Controller
     public function getAccount(): array
     {
         return $this->makeErpRequest('customer', [
-                'cid' => Auth::user()->customer_id,
-            ]) ?? [];
+            'cid' => Auth::user()->customer_id,
+        ]) ?? [];
     }
 
     /**
@@ -170,8 +170,8 @@ class AccountController extends Controller
     public function getInvoiceList(): array
     {
         return $this->makeErpRequest('invoices', [
-                'cid' => Auth::user()->customer_id,
-            ]) ?? [];
+            'cid' => Auth::user()->customer_id,
+        ]) ?? [];
     }
 
     /**
@@ -180,8 +180,8 @@ class AccountController extends Controller
     public function getCustomerList(): array
     {
         return $this->makeErpRequest('clist', [
-                'cid' => Auth::user()->is_admin,
-            ]) ?? [];
+            'cid' => Auth::user()->is_admin,
+        ]) ?? [];
     }
 
     /**
@@ -234,7 +234,6 @@ class AccountController extends Controller
             }
 
             return $this->pdfResponse($pdfData, "{$id}.pdf");
-
         } catch (Exception $e) {
             Log::error('ISPS fetch error', ['id' => $id, 'error' => $e->getMessage()]);
             return $this->jsonError('API Error: Failed to retrieve data', 500);
@@ -272,16 +271,16 @@ class AccountController extends Controller
     public function getDms(?string $id = null): JsonResponse|Response|View
     {
 
-        $trID=$id;
+        $trID = $id;
 
-//        $firstChar = strtoupper($trID[0]);
-//        if($firstChar == 'E' || $firstChar == 'C')
-//            $trID = substr($trID, 1);
+        //        $firstChar = strtoupper($trID[0]);
+        //        if($firstChar == 'E' || $firstChar == 'C')
+        //            $trID = substr($trID, 1);
 
 
 
-        $firstThreeChar = strtoupper(substr($trID, 0,3));
-        if(($firstThreeChar == 'EFD' || $firstThreeChar == 'CNF') && $trID[3]=="-")
+        $firstThreeChar = strtoupper(substr($trID, 0, 3));
+        if (($firstThreeChar == 'EFD' || $firstThreeChar == 'CNF') && $trID[3] == "-")
             $trID = substr($trID, 4);
 
 
@@ -421,7 +420,7 @@ class AccountController extends Controller
 
 
                 $responseData = json_decode($responseBody, true);
-                $responseData=$responseData['data'];
+                $responseData = $responseData['data'];
                 $result = array_filter($responseData, function ($item) use ($awbNumber) {
                     // Check if the 'filename' key exists and matches the target value
                     return isset($item['filename']) && $item['filename'] === $awbNumber;
@@ -434,7 +433,6 @@ class AccountController extends Controller
             }
 
             return 0;
-
         } catch (Exception $e) {
             if ($e->getCode() == 403) {
                 return '403';
@@ -487,7 +485,6 @@ class AccountController extends Controller
                 'data' => $pdfData,
                 'content_type' => $contentType,
             ];
-
         } catch (Exception $e) {
             Log::error('DMS download error', [
                 'document_id' => $documentId,
@@ -512,6 +509,7 @@ class AccountController extends Controller
         //dd($cacheKey);
 
         return Cache::remember($cacheKey, self::CACHE_TTL, function () use ($customerCode) {
+
             return $this->fetchDynamicsData($customerCode);
         });
     }
@@ -529,37 +527,14 @@ class AccountController extends Controller
                 return [];
             }
 
-            $fromDate = '2025-01-01';
-            $toDate = date('Y-m-t');
-
-            $baseUrl = config('app.dynamics_api_url');
-            $entity = 'SatementOfAccounts';
-            $company = urlencode('AAL-LIVE');
-
-            $url = "{$baseUrl}/Company('{$company}')/{$entity}";
-            $filter = "\$filter=customerCode eq '{$customerCode}' and invoiceDate ge {$fromDate} and invoiceDate le {$toDate}";
-            $fullUrl = "{$url}?{$filter}";
+            $response = $dynamicsService->generateSoa($customerCode, $accessToken);
 
 
-            $client = new Client();
-            $request = new GuzzleRequest('GET', $fullUrl, [
-                'Authorization' => "Bearer {$accessToken}",
-            ]);
-
-            $response = $client->sendAsync($request)->wait();
-
-            if ($response->getStatusCode() < 200 || $response->getStatusCode() >= 300) {
-                Log::warning('Dynamics API error', ['status' => $response->getStatusCode()]);
-                return [];
-            }
-
-            $data = json_decode($response->getBody()->getContents(), true);
-            $records = $data['value'] ?? [];
+            $records = $dynamicsService->getDynamicsData($customerCode, $accessToken);
 
 
             // Filter by customer code
             return array_values(array_filter($records, fn($item) => $item['customerCode'] === $customerCode));
-
         } catch (Exception $e) {
             Log::error('Dynamics API error', [
                 'customer' => $customerCode,

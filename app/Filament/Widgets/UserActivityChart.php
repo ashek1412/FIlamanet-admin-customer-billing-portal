@@ -11,7 +11,7 @@ class UserActivityChart extends ChartWidget
 
     protected static ?int $sort = 2;
 
-    protected int | string | array $columnSpan = 6;
+    protected int | string | array $columnSpan = 12;
 
     protected function getData(): array
     {

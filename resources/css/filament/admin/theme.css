@@ -103,29 +103,6 @@ nav.flex{
 
 }
 
-.fi-sidebar {
-  position: relative;
-}
-
-.fi-sidebar::after {
-  content: "";
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  height: 100px;
-  background-image: url('/image/ups_asc.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  opacity: 1;
-}
-
-.fi-sidebar:hover::after {
-  opacity: 1;
-}
-
 
 
 

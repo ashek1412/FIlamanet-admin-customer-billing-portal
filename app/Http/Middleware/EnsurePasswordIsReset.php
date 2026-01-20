@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -18,6 +19,11 @@ class EnsurePasswordIsReset
 
     public function handle(Request $request, Closure $next)
     {
+
+        if ($request->routeIs('filament.app.auth.password-reset.*')) {
+            return $next($request);
+        }
+
         // Skip if user is not authenticated
         if (!Auth::check()) {
             return $next($request);

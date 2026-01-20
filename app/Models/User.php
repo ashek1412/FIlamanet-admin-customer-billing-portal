@@ -11,12 +11,14 @@ use Illuminate\Support\Carbon;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Auth\Passwords\CanResetPassword;
 
 
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable, AuthenticationLoggable;
+    use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable, AuthenticationLoggable, CanResetPassword;
 
     /**
      * The attributes that are mass assignable.
@@ -83,7 +85,7 @@ class User extends Authenticatable implements FilamentUser
     public function sendPasswordResetNotification($token): void
     {
         $url = \Filament\Facades\Filament::getPanel('app')
-            ->getPasswordResetUrl($token, $this);
+            ->getResetPasswordUrl($token, $this);
 
         $this->notify(new \Illuminate\Auth\Notifications\ResetPassword($url));
     }
@@ -95,8 +97,9 @@ class User extends Authenticatable implements FilamentUser
      */
     public function customer()
     {
-        return $this->belongsTo(CustomerList::class, 'customer_id', 'id');
+        return $this->hasMany(Customer::class, 'user_id');
     }
+
 
     public function needsPasswordReset(): bool
     {
@@ -168,5 +171,10 @@ class User extends Authenticatable implements FilamentUser
     public function resetFailedLoginAttempts(): void
     {
         $this->update(['failed_login_attempts' => 0]);
+    }
+
+    public function getUsernameAttribute(): string
+    {
+        return trim($this->name . '-' . $this->email);
     }
 }
