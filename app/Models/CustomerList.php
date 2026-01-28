@@ -12,6 +12,15 @@ class CustomerList extends Model
     use HasFactory, Sushi;
     protected $guarded = [];
     protected $table = "customer_list";
+
+    protected $schema = [
+        'xcus' => 'string',
+        'dname' => 'string',
+        'icris' => 'string',
+        'details' => 'string',
+        'id' => 'integer',
+    ];
+
     public function getRows(): array
     {
         $arr = [];
@@ -27,7 +36,6 @@ class CustomerList extends Model
             $cnt++;
         }
 
-        // dd(count($arr));
         return $arr;
     }
 

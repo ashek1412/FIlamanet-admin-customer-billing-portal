@@ -14,6 +14,8 @@ use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Customer;
 
 class UserResource extends Resource
 {
@@ -53,6 +55,8 @@ class UserResource extends Resource
         return $form
             ->schema([
 
+
+                Forms\Components\TextInput::make('id')->hidden(),
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->unique(ignoreRecord: true)
@@ -65,9 +69,9 @@ class UserResource extends Resource
                     ->maxLength(255),
 
                 Forms\Components\TextInput::make('password')
-                    ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
-                    ->dehydrated(fn (?string $state): bool => filled($state))
-                    ->required(fn (string $operation): bool => $operation === 'create')
+                    ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
+                    ->dehydrated(fn(?string $state): bool => filled($state))
+                    ->required(fn(string $operation): bool => $operation === 'create')
                     ->password()
                     ->confirmed()
                     ->maxLength(255),
@@ -75,22 +79,23 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password_confirmation')
                     ->label('Confirm password')
                     ->password()
-                    ->required(fn (string $operation): bool => $operation === 'create')
+                    ->required(fn(string $operation): bool => $operation === 'create')
                     ->maxLength(255),
                 Checkbox::make('is_admin')->live(),
                 Checkbox::make('view_dws')->label('DWS copy'),
                 Checkbox::make('view_dms')->label('DMS copy'),
                 Toggle::make('is_active')
                     ->label('Active Status')
-                    ->inline(false) ->onColor('success')
+                    ->inline(false)->onColor('success')
                     ->offColor('danger'),
                 Forms\Components\Select::make('customer_id')
                     ->requiredIf('is_admin', false)
                     ->label('Customer')
+                    ->reactive()
                     ->options(CustomerList::all()->pluck('details', 'id'))
-                    ->getSearchResultsUsing(fn (string $search): array => CustomerList::where('details', 'like', "%{$search}%")
+                    ->getSearchResultsUsing(fn(string $search): array => CustomerList::where('details', 'like', "%{$search}%")
                         ->orWhere('icris', 'like', "%{$search}%")->limit(50)->pluck('details', 'id')->toArray())
-                    ->getOptionLabelUsing(fn ($value): ?string => CustomerList::find($value)?->details)
+                    ->getOptionLabelUsing(fn($value): ?string => CustomerList::find($value)?->details)
                     ->loadingMessage('Loading customers...')
                     ->searchPrompt('Search by their name or icris')
                     ->searchable(),
@@ -107,38 +112,38 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('customer.details')->searchable()->limit(30)
-                   ,
+                Tables\Columns\TextColumn::make('customer.name')->searchable()->limit(50),
+                Tables\Columns\TextColumn::make('customer.icris')->label('ICRIS')
+                    ->searchable(),
                 IconColumn::make('is_active')
-                    ->icon(fn (string $state): string => match ($state) {
+                    ->icon(fn(string $state): string => match ($state) {
                         '0' => 'heroicon-o-x-circle',
                         '1' => 'heroicon-o-check-circle',
                     })
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         '0' => 'danger',
                         '1' => 'success',
                         default => 'grey',
                     }),
                 IconColumn::make('view_dws')->label('DWS copy')
-                    ->icon(fn (string $state): string => match ($state) {
+                    ->icon(fn(string $state): string => match ($state) {
                         '0' => 'heroicon-o-x-circle',
                         '1' => 'heroicon-o-check-circle',
                     })
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         '0' => 'danger',
                         '1' => 'success',
                         default => 'grey',
                     }),
                 IconColumn::make('view_dms')->label('DMS')
-                    ->icon(fn (string $state): string => match ($state) {
+                    ->icon(fn(string $state): string => match ($state) {
                         '0' => 'heroicon-o-x-circle',
                         '1' => 'heroicon-o-check-circle',
                     })
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         '0' => 'danger',
                         '1' => 'success',
                         default => 'grey',
@@ -153,20 +158,16 @@ class UserResource extends Resource
                         //dd($data);
                         $data['user_id'] = auth()->id();
 
-                        if( $data['is_admin'])
-                        {
-                            $data['customer_id']=null;
-                            $data['is_admin']=1;
-                        }
-                        else
-                        {
-                            $data['is_admin']=0;
+                        if ($data['is_admin']) {
+                            $data['customer_id'] = null;
+                            $data['is_admin'] = 1;
+                        } else {
+                            $data['is_admin'] = 0;
                         }
 
 
                         return $data;
-                    }) ->successNotificationTitle('User updated')
-                ,
+                    })->successNotificationTitle('User updated'),
                 Tables\Actions\DeleteAction::make(),
             ])
             ->emptyStateActions([
@@ -175,21 +176,26 @@ class UserResource extends Resource
 
                         $data['user_id'] = auth()->id();
 
-                        if( $data['is_admin'])
-                        {
-                            $data['customer_id']=null;
-                            $data['is_admin']=1;
+
+
+                        if ($data['is_admin']) {
+                            $data['customer_id'] = null;
+                            $data['is_admin'] = 1;
+                        } else {
+                            $data['is_admin'] = 0;
                         }
-                        else
-                        {
-                            $data['is_admin']=0;
-                        }
+
+
+
+
 
 
                         return $data;
-                    }) ->successNotificationTitle('User Created'),
+                    })->successNotificationTitle('User Created'),
             ]);
     }
+
+
 
     /**
      * The resource relation managers.
@@ -209,9 +215,8 @@ class UserResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
+            'create' => Pages\CreateUser::route('/create'),
             //'agreement' => \App\Filament\Pages\UserAgreement::route('/agreement'),
         ];
     }
-
-
 }

@@ -24,6 +24,8 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Pboivin\FilamentPeek\FilamentPeekPlugin;
 use Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin;
+use RickDBCN\FilamentEmail\FilamentEmail;
+//use FilamentAlerts\FilamentAlertsPlugin;
 
 
 // See which login theme you want to use
@@ -55,39 +57,39 @@ class AdminPanelProvider extends PanelProvider
                     )
                     ->enableTwoFactorAuthentication(),
 
-//                CuratorPlugin::make()
-//                    ->label('Media')
-//                    ->pluralLabel('Media Library')
-//                    ->navigationIcon('heroicon-o-photo')
-//                    ->navigationGroup('Media')
-//                    ->navigationCountBadge(),
+                //                CuratorPlugin::make()
+                //                    ->label('Media')
+                //                    ->pluralLabel('Media Library')
+                //                    ->navigationIcon('heroicon-o-photo')
+                //                    ->navigationGroup('Media')
+                //                    ->navigationCountBadge(),
 
-             //   FilamentJobsMonitorPlugin::make()
-             //       ->navigationCountBadge()
-            //        ->navigationGroup('Settings'),
+                //   FilamentJobsMonitorPlugin::make()
+                //       ->navigationCountBadge()
+                //        ->navigationGroup('Settings'),
 
                 FilamentPeekPlugin::make()
                     ->disablePluginStyles(),
 
-               // FilamentExceptionsPlugin::make(),
+                // FilamentExceptionsPlugin::make(),
 
 
                 GravatarPlugin::make(),
                 FilamentAuthenticationLogPlugin::make(),
-               // FilamentAlertsPlugin::make(),
+                FilamentEmail::make(),  // FilamentAlertsPlugin::make(),
 
 
             ])
             ->defaultAvatarProvider(GravatarProvider::class)
             ->favicon(asset('/favicon-32x32.png'))
-            ->brandLogo(fn () => view('components.logo'))
+            ->brandLogo(fn() => view('components.logo'))
             ->navigationGroups([
                 'Collections',
                 'Logs',
                 'Settings',
             ])
             ->colors([
-                'primary' =>Color::rgb('rgb(165, 42, 42)'),
+                'primary' => Color::rgb('rgb(165, 42, 42)'),
             ])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -98,7 +100,7 @@ class AdminPanelProvider extends PanelProvider
 
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-               // Widgets\AccountWidget::class,
+                // Widgets\AccountWidget::class,
             ])
             ->middleware([
                 'web',
@@ -118,6 +120,4 @@ class AdminPanelProvider extends PanelProvider
                 RedirectIfNotAdmin::class
             ]);
     }
-
-
 }

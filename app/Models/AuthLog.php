@@ -5,14 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Customer extends Model
+
+class AuthLog extends Model
 {
+
     use HasFactory;
 
-    protected $guarded = [];
+
+    protected $guarded=['*'];
+
+    protected $table="authentication_log";
+
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'authenticatable_id');
     }
+
+
 }

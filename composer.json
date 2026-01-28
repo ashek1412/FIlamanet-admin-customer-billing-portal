@@ -30,6 +30,7 @@
     "pboivin/filament-peek": "^2.2",
     "phpoffice/phpspreadsheet": "^5.4",
     "rappasoft/laravel-authentication-log": "^4.0",
+    "rickdbcn/filament-email": "^1.13",
     "romanzipp/laravel-seo": "^2.6",
     "sinnbeck/markdom": "^2.0",
     "tapp/filament-authentication-log": "3.1",

@@ -248,6 +248,17 @@
       0 => 'Livewire\\LivewireServiceProvider',
     ),
   ),
+  'malzariey/filament-daterangepicker-filter' => 
+  array (
+    'aliases' => 
+    array (
+      'FilamentDaterangepickerFilter' => 'Malzariey\\FilamentDaterangepickerFilter\\Facades\\FilamentDaterangepickerFilter',
+    ),
+    'providers' => 
+    array (
+      0 => 'Malzariey\\FilamentDaterangepickerFilter\\FilamentDaterangepickerFilterServiceProvider',
+    ),
+  ),
   'nesbot/carbon' => 
   array (
     'providers' => 
@@ -281,6 +292,17 @@
     'providers' => 
     array (
       0 => 'Rappasoft\\LaravelAuthenticationLog\\LaravelAuthenticationLogServiceProvider',
+    ),
+  ),
+  'rickdbcn/filament-email' => 
+  array (
+    'aliases' => 
+    array (
+      'FilamentEmail' => 'RickDBCN\\FilamentEmail\\Facades\\FilamentEmail',
+    ),
+    'providers' => 
+    array (
+      0 => 'RickDBCN\\FilamentEmail\\FilamentEmailServiceProvider',
     ),
   ),
   'romanzipp/laravel-seo' => 

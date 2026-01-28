@@ -12,9 +12,10 @@ return [
 
     'navigation' => [
         'authentication-log' => [
-            'register' => true,
+            'register' => false,
 
             'sort' => 1,
+            'group' => '',
             'icon' => 'heroicon-o-shield-check',
         ],
     ],
@@ -25,7 +26,7 @@ return [
     ],
 
     'authenticatable' => [
-        'field-to-display' => 'username', // Change 'name' to your custom field if needed
+        'field-to-display' => 'email', // Change 'name' to your custom field if needed
     ],
 
 ];

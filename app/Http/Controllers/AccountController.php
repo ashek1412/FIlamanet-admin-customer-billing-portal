@@ -38,7 +38,7 @@ class AccountController extends Controller
             'Accept' => '*/*',
             'ebill-id' => config('app.ebil_id'),
             'ebill-key' => config('app.ebil_key'),
-            'client-did' => Auth::user()->customer_id,
+            'client-did' =>  Auth::user()->customer_id,
         ];
     }
 
@@ -48,6 +48,7 @@ class AccountController extends Controller
     private function makeErpRequest(string $endpoint, array $data = []): ?array
     {
         try {
+            // dd($this->getErpHeaders());
 
 
             $response = Http::withHeaders($this->getErpHeaders())
@@ -56,6 +57,8 @@ class AccountController extends Controller
 
 
             if ($response->successful()) {
+
+
                 return $response->json('data');
             }
 
@@ -179,8 +182,9 @@ class AccountController extends Controller
      */
     public function getCustomerList(): array
     {
+
         return $this->makeErpRequest('clist', [
-            'cid' => Auth::user()->is_admin,
+            'cid' => 1, //Auth::user()->is_admin ? 1,
         ]) ?? [];
     }
 

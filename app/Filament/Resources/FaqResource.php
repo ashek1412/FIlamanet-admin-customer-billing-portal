@@ -21,6 +21,7 @@ class FaqResource extends Resource
     protected static ?string $model = Faq::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-question-mark-circle';
+    protected static ?string $navigationGroup = 'Settings';
 
     public static function form(Form $form): Form
     {
@@ -51,7 +52,7 @@ class FaqResource extends Resource
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
-           ;
+        ;
     }
 
     public static function getPages(): array
